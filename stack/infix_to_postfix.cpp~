@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+char stack1[100];
+int top=-1;
+
+int Isoperand(char x)
+{
+	if((x >= 'a' && x<='z' )|| (x>='A'&& x<='Z')){
+		return 1;
+	}
+	else{
+		return 0;
+	}
+}
+int Isoperator(char x)
+{
+	if(x == '^' || x=='*' || x == '/' || x=='+' ||x =='-'){
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+int prec(char x)
+{
+	if(x=='^'){
+		return  3;
+	}
+	if(x=='*'||x =='/'){
+		return 2;
+	}
+	if(x=='+' || x=='-'){
+		return 1;
+	}
+}
+void push(char x)
+{
+	top = top+1;
+	stack1[top]=x;
+}
+void pop()
+{
+	top = top-1;
+}
+int infixToPostfix(string s)
+{
+	int n = s.length();
+	int k=0;
+	for(int i=0;i<n;i++){
+		if(Isoperand(s[i])==1){
+			s[k]=s[i];
+			k++;
+			}
+		else if(Isoperator(s[i])==1){
+			while(top!=-1 && (prec(stack1[top])>=prec(s[i])))
+			{
+				s[k]=stack1[top];
+				k++;
+				pop();
+			}
+			push(s[i]);
+			}
+		}
+		while(top!=-1){
+			s[k] = stack1[top];
+			pop();
+			k++;
+			}
+	for(int g=0;g<n;g++){
+		cout<<s[i];
+	}
+	cout<<"\n";
+}
+
+
+int main()
+{
+	
+	string s;
+	cin>>s;
+	infixToPostfix(s);
+
+	return 0;
+}
